@@ -2,9 +2,11 @@ spring:
   application:
     name: batch
   datasource:
-    hikari:
-      maximum-pool-size: 10
-    url: jdbc:hsqldb:mem:testdb
-    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+    url: jdbc:h2:tcp://localhost/~/batch-study
+    driver-class-name: org.h2.Driver
     username: sa
-    password:
+    password: 12
+
+  batch:
+    jdbc:
+      initialize-schema: always
