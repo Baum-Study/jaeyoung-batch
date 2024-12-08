@@ -9,6 +9,6 @@ public class CustomerHeader implements FlatFileHeaderCallback {
     
     @Override
     public void writeHeader(Writer writer) throws IOException {
-        writer.write("ID,AGE");
+        writer.write("ID, AGE, GENDER");
     }
 }
