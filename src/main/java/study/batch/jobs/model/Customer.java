@@ -1,4 +1,4 @@
-package study.batch.jobs.flatfilereader;
+package study.batch.jobs.model;
 
 import lombok.Getter;
 import lombok.Setter;
