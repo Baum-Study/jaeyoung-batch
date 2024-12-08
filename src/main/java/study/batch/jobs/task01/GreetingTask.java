@@ -17,7 +17,6 @@ public class GreetingTask implements Tasklet, InitializingBean {
     ) {
         log.info("------------------ Task Execute -----------------");
         log.info("GreetingTask: {}, {}", contribution, chunkContext);
-        
         return RepeatStatus.FINISHED;
     }
     

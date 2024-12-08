@@ -30,18 +30,18 @@ import java.util.Map;
 @Configuration
 @RequiredArgsConstructor
 public class JdbcPagingReaderJobConfig {
-
+    
     public static final int CHUNK_SIZE = 2;
     public static final String ENCODING = "UTF-8";
     public static final String JDBC_PAGING_CHUNK_JOB = "JDBC_PAGING_CHUNK_JOB";
-
+    
     private final DataSource dataSource;
-
+    
     @Bean
     public JdbcPagingItemReader<Customer> jdbcPagingItemReader() throws Exception {
         Map<String, Object> parameterValue = new HashMap<>();
         parameterValue.put("age", 20);
-
+        
         return new JdbcPagingItemReaderBuilder<Customer>()
                 .name("jdbcPagingItemReader")
                 .fetchSize(CHUNK_SIZE)
@@ -51,7 +51,7 @@ public class JdbcPagingReaderJobConfig {
                 .parameterValues(parameterValue)
                 .build();
     }
-
+    
     @Bean
     public PagingQueryProvider queryProvider() throws Exception {
         SqlPagingQueryProviderFactoryBean queryProvider = new SqlPagingQueryProviderFactoryBean();
@@ -59,14 +59,14 @@ public class JdbcPagingReaderJobConfig {
         queryProvider.setSelectClause("id, name, age, gender");
         queryProvider.setFromClause("from customer");
         queryProvider.setWhereClause("where age >= :age");
-
+        
         Map<String, Order> sortKeys = new HashMap<>(1);
         sortKeys.put("id", Order.DESCENDING);
         queryProvider.setSortKeys(sortKeys);
-
+        
         return queryProvider.getObject();
     }
-
+    
     @Bean
     public FlatFileItemWriter<Customer> customerFlatFileItemWriter() {
         return new FlatFileItemWriterBuilder<Customer>()
@@ -77,24 +77,23 @@ public class JdbcPagingReaderJobConfig {
                 .names("Name", "Age", "Gender")
                 .build();
     }
-
-
-//    @Bean
-//    public Step customerJdbcPagingStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) throws Exception {
-//        log.info("------------------ Init customerJdbcPagingStep -----------------");
-//        return new StepBuilder("customerJdbcPagingStep", jobRepository)
-//                .<Customer, Customer>chunk(CHUNK_SIZE, transactionManager)
-//                .reader(jdbcPagingItemReader())
-//                .writer(customerFlatFileItemWriter())
-//                .build();
-//    }
-//
-//    @Bean
-//    public Job customerJdbcPagingJob(Step customerJdbcPagingStep, JobRepository jobRepository) {
-//        log.info("------------------ Init customerJdbcPagingJob -----------------");
-//        return new JobBuilder(JDBC_PAGING_CHUNK_JOB, jobRepository)
-//                .incrementer(new RunIdIncrementer())
-//                .start(customerJdbcPagingStep)
-//                .build();
-//    }
+    
+    @Bean
+    public Step customerJdbcPagingStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) throws Exception {
+        log.info("------------------ Init customerJdbcPagingStep -----------------");
+        return new StepBuilder("customerJdbcPagingStep", jobRepository)
+                .<Customer, Customer>chunk(CHUNK_SIZE, transactionManager)
+                .reader(jdbcPagingItemReader())
+                .writer(customerFlatFileItemWriter())
+                .build();
+    }
+    
+    @Bean
+    public Job customerJdbcPagingJob(Step customerJdbcPagingStep, JobRepository jobRepository) {
+        log.info("------------------ Init customerJdbcPagingJob -----------------");
+        return new JobBuilder(JDBC_PAGING_CHUNK_JOB, jobRepository)
+                .incrementer(new RunIdIncrementer())
+                .start(customerJdbcPagingStep)
+                .build();
+    }
 }

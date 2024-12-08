@@ -18,31 +18,29 @@ import study.batch.jobs.task01.GreetingTask;
 @Configuration
 @RequiredArgsConstructor
 public class BasicTaskJobConfiguration {
-
+    
     private final PlatformTransactionManager transactionManager;
     private final JobRepository jobRepository;
-
+    
     @Bean
     public Tasklet greetingTasklet() {
         return new GreetingTask();
     }
-
-//    @Bean
-//    public Step step() {
-//        log.info("------------------ Init myStep -----------------");
-//
-//        return new StepBuilder("myStep", jobRepository)
-//                .tasklet(greetingTasklet(), transactionManager)
-//                .build();
-//    }
-//
-//    @Bean
-//    public Job myJob() {
-//        log.info("------------------ Init myJob -----------------");
-//
-//        return new JobBuilder("myJob", jobRepository)
-//                .incrementer(new RunIdIncrementer())
-//                .start(step())
-//                .build();
-//    }
+    
+    @Bean
+    public Step step() {
+        log.info("------------------ Init myStep -----------------");
+        return new StepBuilder("myStep", jobRepository)
+                .tasklet(greetingTasklet(), transactionManager)
+                .build();
+    }
+    
+    @Bean
+    public Job myJob() {
+        log.info("------------------ Init myJob -----------------");
+        return new JobBuilder("myJob", jobRepository)
+                .incrementer(new RunIdIncrementer())
+                .start(step())
+                .build();
+    }
 }

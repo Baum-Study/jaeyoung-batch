@@ -24,15 +24,15 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Configuration
 public class FlatFileItemJobConfig {
-
+    
     public static final int CHUNK_SIZE = 100;
     public static final String ENCODING_TYPE = "UTF-8";
     private static final String FLAT_FILE_WRITER_CHUNK_JOB = "FLAT_FILE_WRITER_CHUNK_JOB";
-
+    
     private ConcurrentHashMap<String, Integer> aggregateInfos = new ConcurrentHashMap<>();
-
+    
     private final ItemProcessor<Customer, Customer> itemProcessor = new AggregateCustomerProcessor(aggregateInfos);
-
+    
     @Bean
     public FlatFileItemReader<Customer> flatFileItemReader() {
         return new FlatFileItemReaderBuilder<Customer>()
@@ -44,7 +44,7 @@ public class FlatFileItemJobConfig {
                 .targetType(Customer.class)
                 .build();
     }
-
+    
     @Bean
     public FlatFileItemWriter<Customer> flatFileItemWriter() {
         return new FlatFileItemWriterBuilder<Customer>()
@@ -59,24 +59,24 @@ public class FlatFileItemJobConfig {
                 .footerCallback(new CustomerFooter(aggregateInfos))
                 .build();
     }
-
-//    @Bean
-//    public Step flatFileStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
-//        log.info("--------------- Init flatFileStep ---------------");
-//        return new StepBuilder("flatFileStep", jobRepository)
-//                .<Customer, Customer>chunk(CHUNK_SIZE, transactionManager)
-//                .reader(flatFileItemReader())
-//                .processor(itemProcessor)
-//                .writer(flatFileItemWriter())
-//                .build();
-//    }
-//
-//    @Bean
-//    public Job flatFileJob(Step flatFileStep, JobRepository jobRepository) {
-//        log.info("--------------- Init flatFileJob ---------------");
-//        return new JobBuilder(FLAT_FILE_WRITER_CHUNK_JOB, jobRepository)
-//                .incrementer(new RunIdIncrementer())
-//                .start(flatFileStep)
-//                .build();
-//    }
+    
+    @Bean
+    public Step flatFileStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
+        log.info("--------------- Init flatFileStep ---------------");
+        return new StepBuilder("flatFileStep", jobRepository)
+                .<Customer, Customer>chunk(CHUNK_SIZE, transactionManager)
+                .reader(flatFileItemReader())
+                .processor(itemProcessor)
+                .writer(flatFileItemWriter())
+                .build();
+    }
+    
+    @Bean
+    public Job flatFileJob(Step flatFileStep, JobRepository jobRepository) {
+        log.info("--------------- Init flatFileJob ---------------");
+        return new JobBuilder(FLAT_FILE_WRITER_CHUNK_JOB, jobRepository)
+                .incrementer(new RunIdIncrementer())
+                .start(flatFileStep)
+                .build();
+    }
 }
