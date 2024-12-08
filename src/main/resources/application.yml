@@ -1,12 +1,21 @@
-spring:
-  application:
-    name: batch
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/batch-study
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: 12
+#spring:
+#  application:
+#    name: batch
+#  datasource:
+#    url: jdbc:h2:tcp://localhost/~/batch-study
+#    driver-class-name: org.h2.Driver
+#    username: sa
+#    password: 12
+#
+#  batch:
+#    jdbc:
+#      initialize-schema: always
 
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/batchtest?useUnicode=true&characterEncoding=utf8&clusterInstanceHostPattern=?&zeroDateTimeBehavior=CONVERT_TO_NULL&allowMultiQueries=true
+    username: root
+    password: whoareyou!12
   batch:
-    jdbc:
-      initialize-schema: always
+    job:
+      name: JDBC_BATCH_WRITER_CHUNK_JOB
