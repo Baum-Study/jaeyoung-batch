@@ -1,4 +1,4 @@
-package study.batch.jobs.task01;
+package study.batch.chapter.jobs.task01;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.StepContribution;

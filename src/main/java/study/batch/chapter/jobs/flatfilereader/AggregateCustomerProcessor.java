@@ -1,7 +1,7 @@
-package study.batch.jobs.flatfilereader;
+package study.batch.chapter.jobs.flatfilereader;
 
 import org.springframework.batch.item.ItemProcessor;
-import study.batch.jobs.model.Customer;
+import study.batch.chapter.jobs.model.Customer;
 
 import java.util.concurrent.ConcurrentHashMap;
 

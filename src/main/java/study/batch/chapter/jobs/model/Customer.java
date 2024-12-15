@@ -1,4 +1,4 @@
-package study.batch.jobs.model;
+package study.batch.chapter.jobs.model;
 
 import lombok.Data;
 

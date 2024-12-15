@@ -1,4 +1,4 @@
-package study.batch.jobs.flatfilereader;
+package study.batch.chapter.jobs.flatfilereader;
 
 import org.springframework.batch.item.file.FlatFileFooterCallback;
 

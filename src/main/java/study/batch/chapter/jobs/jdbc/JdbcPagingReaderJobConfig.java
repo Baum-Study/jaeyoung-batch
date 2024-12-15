@@ -1,4 +1,4 @@
-package study.batch.jobs.jdbc;
+package study.batch.chapter.jobs.jdbc;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.transaction.PlatformTransactionManager;
-import study.batch.jobs.model.Customer;
+import study.batch.chapter.jobs.model.Customer;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
