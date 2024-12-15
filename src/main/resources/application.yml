@@ -13,9 +13,17 @@
 
 spring:
   datasource:
+    hikari:
+      maximum-pool-size: 10
+      username: root
+      password: whoareyou!12
     url: jdbc:mysql://127.0.0.1:3306/batchtest?useUnicode=true&characterEncoding=utf8&clusterInstanceHostPattern=?&zeroDateTimeBehavior=CONVERT_TO_NULL&allowMultiQueries=true
-    username: root
-    password: whoareyou!12
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    # defer-datasource-initialization: true
   batch:
     job:
-      name: JPA_PAGING_CHUNK_JOB
+      name: JPA_ITEM_WRITER_JOB
