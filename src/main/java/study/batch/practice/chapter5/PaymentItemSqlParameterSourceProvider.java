@@ -1,4 +1,4 @@
-package study.batch.practice;
+package study.batch.practice.chapter5;
 
 import org.springframework.batch.item.database.ItemSqlParameterSourceProvider;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
