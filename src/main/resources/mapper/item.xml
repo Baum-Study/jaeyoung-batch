@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="study.batch.mapper.ItemMapper">
+
+    <resultMap id="itemResult" type="Item">
+        <result property="itemId" column="item_id"/>
+        <result property="deliveredStatus" column="delivered_status"/>
+        <result property="deliveredAt" column="delivered_at"/>
+        <result property="memberId" column="member_id"/>
+        <result property="itemName" column="item_name"/>
+    </resultMap>
+
+    <!-- 배송 기간이 지난 상품 조회 -->
+    <select id="selectItemsPastDate" resultType="Item">
+        SELECT
+        item_id AS itemId,
+        member_id AS memberId,
+        delivered_status AS deliveredStatus,
+        delivered_at AS deliveredAt,
+        item_name AS itemName
+        FROM
+            ITEM
+        WHERE
+            <![CDATA[delivered_at < CURDATE()]]>
+    </select>
+
+    <!-- 배송 상태 업데이트 -->
+    <update id="updateItemDeliveryStatus">
+        UPDATE
+            ITEM
+        SET
+            delivered_status = 'Y'
+        WHERE
+            item_id = #{itemId}
+    </update>
+</mapper>

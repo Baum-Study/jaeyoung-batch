@@ -21,13 +21,13 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
     # defer-datasource-initialization: true
-  batch:
-    job:
-      name: MYBATIS_PROCESSOR_JOB
+#  batch:
+#    job:
+#      name: JPA_ITEM_WRITER_JOB
 
 mybatis:
   mapper-locations: classpath:/mapper/**/*.xml
-  type-aliases-package: study.batch.chapter.jobs.model
+  type-aliases-package: study.batch.chapter.jobs.model,study.batch.practice.chapter8
