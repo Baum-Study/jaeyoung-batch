@@ -21,12 +21,12 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
     # defer-datasource-initialization: true
-#  batch:
-#    job:
-#      name: JPA_ITEM_WRITER_JOB
+  batch:
+    job:
+      name: QUERYDSL_PAGING_CHUNK_JOB
 
 mybatis:
   mapper-locations: classpath:/mapper/**/*.xml
