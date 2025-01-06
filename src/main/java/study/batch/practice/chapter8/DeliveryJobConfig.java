@@ -19,15 +19,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import java.util.List;
-
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class DeliveryJobConfig {
     
     private final SqlSessionFactory sqlSessionFactory;
-    private final ItemService itemService;
     
     @Bean
     public MyBatisPagingItemReader<Item> deliveryReader() {
@@ -49,12 +46,7 @@ public class DeliveryJobConfig {
     @Bean
     public CompositeItemProcessor<Item, Item> deliveryProcessor() {
         return new CompositeItemProcessorBuilder<Item, Item>()
-                .delegates(
-                        List.of(
-                                new DeliveryStatusProcessor(itemService),
-                                new MileageProcessor(itemService)
-                        )
-                )
+                .delegates(new MileageProcessor())
                 .build();
     }
     

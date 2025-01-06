@@ -16,15 +16,15 @@
     <!-- 배송 기간이 지난 상품 조회 -->
     <select id="selectItemsPastDate" resultType="Item">
         SELECT
-        item_id AS itemId,
-        member_id AS memberId,
-        delivered_status AS deliveredStatus,
-        delivered_at AS deliveredAt,
-        item_name AS itemName
+            item_id AS itemId,
+            member_id AS memberId,
+            delivered_status AS deliveredStatus,
+            delivered_at AS deliveredAt,
+            item_name AS itemName
         FROM
             ITEM
         WHERE
-            <![CDATA[delivered_at < CURDATE()]]>
+            <![CDATA[DATE_ADD(delivered_at, INTERVAL 7 DAY) < CURDATE()]]>
     </select>
 
     <!-- 배송 상태 업데이트 -->
