@@ -25,6 +25,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 public class DeliveryJobConfig {
     
     private final SqlSessionFactory sqlSessionFactory;
+    private final ItemService itemService;
     
     @Bean
     public MyBatisPagingItemReader<Item> deliveryReader() {
@@ -46,7 +47,7 @@ public class DeliveryJobConfig {
     @Bean
     public CompositeItemProcessor<Item, Item> deliveryProcessor() {
         return new CompositeItemProcessorBuilder<Item, Item>()
-                .delegates(new MileageProcessor())
+                .delegates(new MileageProcessor(itemService))
                 .build();
     }
     

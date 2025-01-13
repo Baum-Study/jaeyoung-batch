@@ -15,6 +15,7 @@ import study.batch.practice.chapter8.ItemService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 
 @SpringBootTest
@@ -35,12 +36,13 @@ class MyBatisReaderJobTest {
         assertThat(job).isNotNull();
         assertThat(job.getName()).isEqualTo("processDeliveryJob");
         
+        doNothing().when(itemService).addMileage();
+        
         // when
         JobExecution jobExecution = jobLauncherTestUtils.launchJob();
         
         // then
         assertThat(jobExecution.getStatus()).isEqualTo(BatchStatus.COMPLETED);
-        
         verify(itemService, atLeastOnce()).addMileage();
     }
 }
