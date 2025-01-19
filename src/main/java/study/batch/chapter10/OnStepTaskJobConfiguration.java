@@ -1,7 +1,7 @@
 package study.batch.chapter10;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
@@ -68,8 +68,8 @@ public class OnStepTaskJobConfiguration {
         return new JobBuilder(ON_STEP_TASK, jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .start(stepOn01)
-                .on("FAILED").to(stepOn03)
-                .from(stepOn01).on("COMPLETED").to(stepOn02)
+                .on(ExitStatus.FAILED.getExitCode()).to(stepOn03)
+                .from(stepOn01).on(ExitStatus.COMPLETED.getExitCode()).to(stepOn02)
                 .end()
                 .build();
     }

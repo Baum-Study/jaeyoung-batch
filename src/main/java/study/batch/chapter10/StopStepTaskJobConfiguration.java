@@ -1,6 +1,7 @@
 package study.batch.chapter10;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
@@ -56,8 +57,8 @@ public class StopStepTaskJobConfiguration {
         return new JobBuilder(STOP_STEP_TASK, jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .start(stepStop01)
-                .on("FAILED").stop()
-                .from(stepStop01).on("COMPLETED").to(stepStop02)
+                .on(ExitStatus.FAILED.getExitCode()).stop()
+                .from(stepStop01).on(ExitStatus.COMPLETED.getExitCode()).to(stepStop02)
                 .end()
                 .build();
     }
