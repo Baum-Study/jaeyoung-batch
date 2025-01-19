@@ -26,8 +26,14 @@ spring:
     # defer-datasource-initialization: true
   batch:
     job:
-      name: STOP_STEP_TASK
+      name: LISTENER_TEST_STEP_TASK
 
 mybatis:
   mapper-locations: classpath:/mapper/**/*.xml
   type-aliases-package: study.batch.chapter.jobs.model,study.batch.practice.chapter8
+
+logging:
+  level:
+    org:
+      springframework:
+        batch: OFF
